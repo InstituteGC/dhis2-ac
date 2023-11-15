@@ -1,0 +1,48 @@
+---
+- name: Deploy DHIS2
+  hosts: instances
+  remote_user: root
+  tasks:
+   - name: Install Docker
+     ansible.builtin.apt:
+      name: docker.io
+      update_cache: true
+     become: true
+     become_user: root
+   - name: Install docker-compose
+     ansible.builtin.apt:
+      name: docker-compose
+      update_cache: true
+     become: true
+     become_user: root
+   - name: Add user to docker group
+     ansible.builtin.user:
+      name: ubuntu
+      groups: docker
+      append: true
+     become: true
+     become_user: root
+   - name: Reset SSH connection for group change
+     ansible.builtin.meta:
+      reset_connection
+   - name: Clone repo
+     ansible.builtin.git:
+      repo: https://github.com/dhis2/dhis2-core
+      dest: /home/ubuntu/dhis2-code
+      accept_newhostkey: true
+      force: true
+   - name: Creating a file with content
+     copy:
+      dest: /home/ubuntu/dhis2-code/.env
+      content: |
+        DHIS2_IMAGE=dhis2/core:2.40.0.1
+        DHIS2_DB_DUMP_URL=https://databases.dhis2.org/sierra-leone/2.39.1/dhis2-db-sierra-leone.sql.gz
+   - name: Make 8080 not just localhost
+     ansible.builtin.replace:
+      path: /home/ubuntu/dhis2-code/docker-compose.yml
+      regexp: '127\.0\.0\.1:8080:8080 # DHIS2'
+      replace: '8080:8080 # DHIS2 (tweaked by dhis2-ac)'
+   - name: Docker compose up
+     community.docker.docker_compose:
+      project_src: /home/ubuntu/dhis2-code
+      state: present
