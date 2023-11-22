@@ -6,6 +6,10 @@ This repository is designed to stand up a test [DHIS2 Instance](https://github.c
 
 ## Instructions
 
+(tested on Mac only so far)
+
+* Install Ansible and Terraform if you don't have them.
+
 * Clone this repo locally.
 
 * Copy `.envrc.template` to `.envrc`, populate. Source using [direnv](https://direnv.net/)
