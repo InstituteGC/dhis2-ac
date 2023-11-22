@@ -1,6 +1,6 @@
 # dhis2-ac
 
-This repository is designed to stand up a test [DHIS2 Instance](https://github.com/dhis2/dhis2-core#run-dhis2-in-docker) using Docker on an EC2 VM instance in AWS. It stands it up using the [Sierra Leone] demo data set.
+This repository is designed to stand up a test [DHIS2 Instance](https://github.com/dhis2/dhis2-core#run-dhis2-in-docker) using Docker on an EC2 VM instance in AWS. It stands it up using the [Sierra Leone](https://github.com/dhis2/dhis2-core#demo-db) demo data set.
 
 *IT IS NOT PRODUCTION-READY AND SHOULD BE TREATED AS POTENTIALLY VULNERABLE*
 
